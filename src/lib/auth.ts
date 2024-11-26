@@ -3,7 +3,7 @@ import { account, OAuthProvider } from './appwrite'
 
 export const loginWithGoogle = async () => {
   try {
-    await account.createOAuth2Session(OAuthProvider.Google)
+    await account.createOAuth2Session(OAuthProvider.Google, window.location.origin)
   } catch (error) {
     console.error(error)
   }
