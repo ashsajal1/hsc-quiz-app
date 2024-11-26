@@ -11,6 +11,8 @@
             <RouterLink to="/about">
                 <Button>About</Button>
             </RouterLink>
+
+            <Button @click="loginWithGoogle()">Login</Button>
         </div>
     </nav>
 </template>
@@ -20,6 +22,7 @@ import { useColorMode, useCycleList } from '@vueuse/core'
 import { Button } from 'primevue';
 import { watchEffect } from 'vue'
 import { SunDim, Moon, MonitorDot } from 'lucide-vue-next';
+import { loginWithGoogle } from "../lib/auth";
 
 const mode = useColorMode({
     emitAuto: true,
