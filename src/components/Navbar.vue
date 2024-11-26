@@ -13,7 +13,10 @@
             </RouterLink>
 
             <Button v-if="!isAuthenticated" @click="login()">Login</Button>  
-            <Button v-else>{{ user?.email }}</Button>  
+            <div v-else class="flex items-center">
+                <img :src="user?.user_metadata?.avatar_url" class="w-8 h-8 rounded-full mr-2" v-if="user?.user_metadata?.avatar_url !== ''" :alt="user?.user_metadata?.full_name" />
+            </div>  
+            
         </div>
     </nav>
 </template>
