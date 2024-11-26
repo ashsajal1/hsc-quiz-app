@@ -23,6 +23,9 @@ importers:
       lucide-vue-next:
         specifier: ^0.460.0
         version: 0.460.0(vue@3.5.13(typescript@5.6.3))
+      pinia:
+        specifier: ^2.2.6
+        version: 2.2.6(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3))
       primevue:
         specifier: ^4.2.3
         version: 4.2.3(vue@3.5.13(typescript@5.6.3))
@@ -2073,6 +2076,18 @@ packages:
   pify@2.3.0:
     resolution: {integrity: sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==}
     engines: {node: '>=0.10.0'}
+
+  pinia@2.2.6:
+    resolution: {integrity: sha512-vIsR8JkDN5Ga2vAxqOE2cJj4VtsHnzpR1Fz30kClxlh0yCHfec6uoMeM3e/ddqmwFUejK3NlrcQa/shnpyT4hA==}
+    peerDependencies:
+      '@vue/composition-api': ^1.4.0
+      typescript: '>=4.4.4'
+      vue: ^2.6.14 || ^3.5.11
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+      typescript:
+        optional: true
 
   pirates@4.0.6:
     resolution: {integrity: sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==}
@@ -4969,6 +4984,14 @@ snapshots:
 
   pify@2.3.0: {}
 
+  pinia@2.2.6(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3)):
+    dependencies:
+      '@vue/devtools-api': 6.6.4
+      vue: 3.5.13(typescript@5.6.3)
+      vue-demi: 0.14.10(vue@3.5.13(typescript@5.6.3))
+    optionalDependencies:
+      typescript: 5.6.3
+
   pirates@4.0.6: {}
 
   pkg-types@1.2.1:
@@ -5699,6 +5722,7 @@ snapshots:
     dependencies:
       '@vueuse/core': 11.3.0(vue@3.5.13(typescript@5.6.3))
       '@vueuse/motion': 2.2.6(rollup@2.79.2)(vue@3.5.13(typescript@5.6.3))
+      appwrite: 16.0.2
       lucide-vue: 0.460.0(vue@3.5.13(typescript@5.6.3))
       lucide-vue-next: 0.460.0(vue@3.5.13(typescript@5.6.3))
       primevue: 4.2.3(vue@3.5.13(typescript@5.6.3))
