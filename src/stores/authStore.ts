@@ -1,9 +1,11 @@
 import { defineStore } from 'pinia';
 import { Ref, ref } from 'vue';
+import { supabase } from '../lib/supabase';
+import type { User } from '@supabase/supabase-js'; // Import the User type
 
 // Define store state and methods
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref(null); // Holds authenticated user info
+  const user: Ref<User | null> = ref(null); // Holds authenticated user info
   const isAuthenticated: Ref<boolean> = ref(false); // Tracks authentication status
   const loading: Ref<boolean> = ref(false); // Tracks loading state
   const error: Ref<string | null> = ref(null); // Holds error messages
@@ -13,22 +15,41 @@ export const useAuthStore = defineStore('auth', () => {
     loading.value = true;
     error.value = null;
     try {
-      // await loginWithGoogle(); // Your Google login implementation
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+      });
+  
+      if (error) {
+        throw new Error(error.message);
+      }
+  
       await fetchUser(); // Fetch user after successful login
-    } catch (err: any) {
-      error.value = err.message;
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        error.value = err.message;
+      } else {
+        console.error('Unknown error:', err);
+        error.value = 'An unknown error occurred';
+      }
     } finally {
       loading.value = false;
     }
   }
+  
 
   // Fetch current user
   async function fetchUser(): Promise<void> {
     try {
-      const userData = null;
-      user.value = userData;
+      const { data, error } = await supabase.auth.getUser();
+
+      if (error || !data?.user) {
+        throw new Error(error?.message || 'User not found');
+      }
+
+      user.value = data.user;
       isAuthenticated.value = true;
-    } catch {
+    } catch (err) {
+      console.error('Error fetching user:', err);
       user.value = null;
       isAuthenticated.value = false;
     }
