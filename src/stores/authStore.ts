@@ -1,13 +1,9 @@
 import { defineStore } from 'pinia';
 import { Ref, ref } from 'vue';
-import { Models } from 'appwrite';
-
-// Define user type (from Appwrite Models)
-type User = Models.User<Models.Preferences> | null;
 
 // Define store state and methods
 export const useAuthStore = defineStore('auth', () => {
-  const user: Ref<User> = ref(null); // Holds authenticated user info
+  const user = ref(null); // Holds authenticated user info
   const isAuthenticated: Ref<boolean> = ref(false); // Tracks authentication status
   const loading: Ref<boolean> = ref(false); // Tracks loading state
   const error: Ref<string | null> = ref(null); // Holds error messages
