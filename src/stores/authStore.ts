@@ -1,8 +1,6 @@
 import { defineStore } from 'pinia';
 import { Ref, ref } from 'vue';
 import { Models } from 'appwrite';
-import { loginWithGoogle } from '../lib/auth';
-import { account } from '../lib/appwrite';
 
 // Define user type (from Appwrite Models)
 type User = Models.User<Models.Preferences> | null;
@@ -19,7 +17,7 @@ export const useAuthStore = defineStore('auth', () => {
     loading.value = true;
     error.value = null;
     try {
-      await loginWithGoogle(); // Your Google login implementation
+      // await loginWithGoogle(); // Your Google login implementation
       await fetchUser(); // Fetch user after successful login
     } catch (err: any) {
       error.value = err.message;
@@ -31,7 +29,7 @@ export const useAuthStore = defineStore('auth', () => {
   // Fetch current user
   async function fetchUser(): Promise<void> {
     try {
-      const userData = await account.get();
+      const userData = null;
       user.value = userData;
       isAuthenticated.value = true;
     } catch {
@@ -43,7 +41,7 @@ export const useAuthStore = defineStore('auth', () => {
   // Logout user
   async function logout(): Promise<void> {
     try {
-      await account.deleteSession('current');
+      // await account.deleteSession('current');
       user.value = null;
       isAuthenticated.value = false;
     } catch (err: any) {

@@ -12,7 +12,6 @@
   "dependencies": {
     "@vueuse/core": "^11.3.0",
     "@vueuse/motion": "^2.2.6",
-    "appwrite": "^16.0.2",
     "lucide-vue": "^0.460.0",
     "lucide-vue-next": "^0.460.0",
     "pinia": "^2.2.6",

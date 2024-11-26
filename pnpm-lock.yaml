@@ -14,9 +14,6 @@ importers:
       '@vueuse/motion':
         specifier: ^2.2.6
         version: 2.2.6(rollup@2.79.2)(vue@3.5.13(typescript@5.6.3))
-      appwrite:
-        specifier: ^16.0.2
-        version: 16.0.2
       lucide-vue:
         specifier: ^0.460.0
         version: 0.460.0(vue@3.5.13(typescript@5.6.3))
@@ -5725,6 +5722,7 @@ snapshots:
       appwrite: 16.0.2
       lucide-vue: 0.460.0(vue@3.5.13(typescript@5.6.3))
       lucide-vue-next: 0.460.0(vue@3.5.13(typescript@5.6.3))
+      pinia: 2.2.6(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3))
       primevue: 4.2.3(vue@3.5.13(typescript@5.6.3))
       tailwindcss-primeui: 0.3.4(tailwindcss@3.4.15)
       vue: 3.5.13(typescript@5.6.3)
