@@ -13,7 +13,7 @@
             </RouterLink>
 
             <Button v-if="!isAuthenticated" @click="login()">Login</Button>  
-            <Button v-else>{user.name}</Button>  
+            <Button v-else>{{ user?.email }}</Button>  
         </div>
     </nav>
 </template>
@@ -28,7 +28,7 @@ import { storeToRefs } from 'pinia'
 
 const authStore = useAuthStore();
 const { login } = authStore;
-const { user, isAuthenticated, error } = storeToRefs(authStore); // State
+const { user, isAuthenticated } = storeToRefs(authStore); // State
 
 const mode = useColorMode({
     emitAuto: true,
