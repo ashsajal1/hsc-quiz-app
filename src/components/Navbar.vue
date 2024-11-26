@@ -12,7 +12,8 @@
                 <Button>About</Button>
             </RouterLink>
 
-            <Button @click="loginWithGoogle()">Login</Button>
+            <Button v-if="!isAuthenticated" @click="login()">Login</Button>  
+            <Button v-else>{user.name}</Button>  
         </div>
     </nav>
 </template>
@@ -22,7 +23,12 @@ import { useColorMode, useCycleList } from '@vueuse/core'
 import { Button } from 'primevue';
 import { watchEffect } from 'vue'
 import { SunDim, Moon, MonitorDot } from 'lucide-vue-next';
-import { loginWithGoogle } from "../lib/auth";
+import { useAuthStore } from '../stores/authStore'
+import { storeToRefs } from 'pinia'
+
+const authStore = useAuthStore();
+const { login } = authStore;
+const { user, isAuthenticated, error } = storeToRefs(authStore); // State
 
 const mode = useColorMode({
     emitAuto: true,
