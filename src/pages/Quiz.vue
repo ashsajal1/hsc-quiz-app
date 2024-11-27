@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="p-2">
     <h1>Quizzes</h1>
 
-    <div>
+    <div class="flex items-center gap-2">
       <!-- AutoComplete displays topic names but binds topic.id to the v-model -->
       <AutoComplete
         v-model="selectedTopicId"
@@ -11,6 +11,7 @@
         @complete="search"
         field="name"
       />
+      <Button @click="getQuizzes()">Submit</Button>
     </div>
     <!-- Loading State -->
     <div v-if="loading">Loading quizzes...</div>
@@ -40,7 +41,13 @@ import { useQuizStore } from '../stores/quizStore';
 import AutoComplete from 'primevue/autocomplete';
 import { useTopicStore } from '../stores/topics';
 import { onMounted, ref } from 'vue';
+import { Button } from 'primevue';
 
+const getQuizzes = () => {
+  if(!selectedTopicId) return
+  // Call the fetchQuizzes function from the quiz store
+  fetchQuizzes(selectedTopicId.value!);
+}
 // This will store the topic ID selected in the AutoComplete
 const selectedTopicId = ref<string | null>(null); 
 
