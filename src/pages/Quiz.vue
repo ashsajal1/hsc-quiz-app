@@ -4,13 +4,8 @@
 
     <div class="flex items-center gap-2">
       <!-- AutoComplete displays topic names but binds topic.id to the v-model -->
-      <AutoComplete
-        v-model="selectedTopicId"
-        dropdown
-        :suggestions="topics.map((topic) => topic.name)"
-        @complete="search"
-        field="name"
-      />
+      <AutoComplete v-model="selectedTopicId" dropdown :suggestions="topics.map((topic) => topic.name)"
+        @complete="search" field="name" />
       <Button @click="getQuizzes()">Submit</Button>
     </div>
     <!-- Loading State -->
@@ -23,14 +18,17 @@
 
     <!-- Display Quizzes -->
     <div v-else>
-      <ul>
-        <li v-for="quiz in quizzes" :key="quiz.id">
-          <h3>{{ quiz.question }}</h3>
-          <p>Subject: {{ quiz.subject }}</p>
-          <p>Chapter: {{ quiz.chapter }}</p>
-          <p>Type: {{ quiz.type }}</p>
-        </li>
-      </ul>
+      <div v-for="quiz in quizzes" :key="quiz.id">
+
+        <p class="font-bold text-lg my-2">{{ quiz.question }}</p>
+        <div class="flex flex-col gap-2">
+          <Button variant="outlined" severity="secondary" v-for="option in quiz.options" :key="option.id">
+            {{ option.option }}
+          </Button>
+
+          <Button rounded>Submit</Button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -44,12 +42,12 @@ import { onMounted, ref } from 'vue';
 import { Button } from 'primevue';
 
 const getQuizzes = () => {
-  if(!selectedTopicId) return
+  if (!selectedTopicId) return
   // Call the fetchQuizzes function from the quiz store
   fetchQuizzes(selectedTopicId.value!);
 }
 // This will store the topic ID selected in the AutoComplete
-const selectedTopicId = ref<string | null>(null); 
+const selectedTopicId = ref<string | null>(null);
 
 const topicStore = useTopicStore();
 
