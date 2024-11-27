@@ -18,15 +18,16 @@
 
     <!-- Display Quizzes -->
     <div v-else>
-      <div v-for="quiz in quizzes" :key="quiz.id">
+      <div v-for="{ id, question, options } in quizzes" :key="id">
 
-        <p class="font-bold text-lg my-2">{{ quiz.question }}</p>
+        <p class="font-bold text-lg my-2">{{ question }}</p>
         <div class="flex flex-col gap-2">
-          <Button variant="outlined" severity="secondary" v-for="option in quiz.options" :key="option.id">
-            {{ option.option }}
+          <Button @click="selectOption(option)" variant="outlined"
+            :severity="isOptionSelected(option) ? 'help' : 'secondary'" v-for="{ option } in options" :key="option">
+            {{ option }}
           </Button>
 
-          <Button rounded>Submit</Button>
+          <Button @click="submit" rounded>Submit</Button>
         </div>
       </div>
     </div>
@@ -40,6 +41,28 @@ import AutoComplete from 'primevue/autocomplete';
 import { useTopicStore } from '../stores/topics';
 import { onMounted, ref } from 'vue';
 import { Button } from 'primevue';
+
+const userSelectedOption = ref<string | null>(null);
+
+const selectOption = (option: string) => {
+
+  if (userSelectedOption.value === option) {
+    userSelectedOption.value = null
+  } else {
+    userSelectedOption.value = option;
+  }
+};
+
+const isOptionSelected = (option: string) => {
+  return userSelectedOption.value === option;
+
+};
+
+// Handle submission
+const submit = () => {
+  console.log('Selected Option:', userSelectedOption.value);
+};
+
 
 const getQuizzes = () => {
   if (!selectedTopicId) return
