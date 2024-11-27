@@ -2,6 +2,16 @@
   <div>
     <h1>Quizzes</h1>
 
+    <div>
+      <!-- AutoComplete displays topic names but binds topic.id to the v-model -->
+      <AutoComplete
+        v-model="selectedTopicId"
+        dropdown
+        :suggestions="topics.map((topic) => topic.name)"
+        @complete="search"
+        field="name"
+      />
+    </div>
     <!-- Loading State -->
     <div v-if="loading">Loading quizzes...</div>
 
@@ -21,28 +31,48 @@
         </li>
       </ul>
     </div>
-
-    <!-- Buttons to Trigger Quiz Fetching -->
-    <button @click="loadMathQuizzes">Load Math Quizzes</button>
-    <button @click="loadPhysicsQuizzes">Load Physics Quizzes</button>
   </div>
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from 'pinia'
-import { useQuizStore } from '../stores/quizStore'; // Update the path if necessary
+import { storeToRefs } from 'pinia';
+import { useQuizStore } from '../stores/quizStore';
+import AutoComplete from 'primevue/autocomplete';
+import { useTopicStore } from '../stores/topics';
+import { onMounted, ref } from 'vue';
+
+// This will store the topic ID selected in the AutoComplete
+const selectedTopicId = ref<string | null>(null); 
+
+const topicStore = useTopicStore();
+
+// Get all topics
+const { topics } = storeToRefs(topicStore);
+const { fetchTopics } = topicStore;
+
+onMounted(() => {
+  // Fetch topics when the component is mounted
+  fetchTopics();
+});
 
 // Access the quiz store
 const quizStore = useQuizStore();
-const { quizzes, loading, error, } = storeToRefs(quizStore);
+const { quizzes, loading, error } = storeToRefs(quizStore);
 const { fetchQuizzes } = quizStore;
 
-// Method to load quizzes for specific subjects and optional chapters
-const loadMathQuizzes = () => {
-  fetchQuizzes('Geography'); // Fetch quizzes for "Math"
-};
+// Search function to filter topics based on user input
+const search = (event: { query: string }) => {
+  // Ensure topics are up-to-date before filtering
+  if (topics.value.length === 0) {
+    topicStore.fetchTopics();
+  }
 
-const loadPhysicsQuizzes = () => {
-  fetchQuizzes('Science', 'Physics'); // Fetch quizzes for "Science" and "Physics" chapter
+  // Filter topics based on the query entered by the user
+  const filteredTopics = topics.value.filter((topic) =>
+    topic.name.toLowerCase().includes(event.query.toLowerCase())
+  );
+
+  // Update the AutoComplete suggestions with filtered topics
+  topicStore.topics = filteredTopics;
 };
 </script>
