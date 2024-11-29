@@ -1,10 +1,10 @@
-import { defineStore } from 'pinia';
-import { Ref, ref } from 'vue';
-import { supabase } from '../lib/supabase';
-import type { User } from '@supabase/supabase-js'; // Import the User type
+import { defineStore } from "pinia";
+import { Ref, ref } from "vue";
+import { supabase } from "../lib/supabase";
+import type { User } from "@supabase/supabase-js"; // Import the User type
 
 // Define store state and methods
-export const useAuthStore = defineStore('auth', () => {
+export const useAuthStore = defineStore("auth", () => {
   const user: Ref<User | null> = ref(null); // Holds authenticated user info
   const isAuthenticated: Ref<boolean> = ref(false); // Tracks authentication status
   const loading: Ref<boolean> = ref(false); // Tracks loading state
@@ -16,26 +16,28 @@ export const useAuthStore = defineStore('auth', () => {
     error.value = null;
     try {
       const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
+        provider: "google",
+        options: {
+          redirectTo: import.meta.env.VITE_REDIRECT_URL,
+        },
       });
-  
+
       if (error) {
         throw new Error(error.message);
       }
-  
+
       await fetchUser(); // Fetch user after successful login
     } catch (err: unknown) {
       if (err instanceof Error) {
         error.value = err.message;
       } else {
-        console.error('Unknown error:', err);
-        error.value = 'An unknown error occurred';
+        console.error("Unknown error:", err);
+        error.value = "An unknown error occurred";
       }
     } finally {
       loading.value = false;
     }
   }
-  
 
   // Fetch current user
   async function fetchUser(): Promise<void> {
@@ -43,13 +45,13 @@ export const useAuthStore = defineStore('auth', () => {
       const { data, error } = await supabase.auth.getUser();
 
       if (error || !data?.user) {
-        throw new Error(error?.message || 'User not found');
+        throw new Error(error?.message || "User not found");
       }
 
       user.value = data.user;
       isAuthenticated.value = true;
     } catch (err) {
-      console.error('Error fetching user:', err);
+      console.error("Error fetching user:", err);
       user.value = null;
       isAuthenticated.value = false;
     }
