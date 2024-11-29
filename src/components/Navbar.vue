@@ -1,5 +1,5 @@
 <template>
-    <nav class="flex items-center justify-between p-4 w-full border-b border-gray-600">
+    <nav class="flex items-center justify-between p-4 w-full border-b dark:border-surface-700 border-surface-200">
         <Menubar class="w-full m-0 border-none" :model="items">
             <template #start>
                 <RouterLink to="/" class="text-2xl font-bold select-none cursor-pointer">Logo</RouterLink>
