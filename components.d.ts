@@ -13,6 +13,7 @@ declare module 'vue' {
     InputText: typeof import('primevue/inputtext')['default']
     Menubar: typeof import('primevue/menubar')['default']
     Navbar: typeof import('./src/components/Navbar.vue')['default']
+    Popover: typeof import('primevue/popover')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

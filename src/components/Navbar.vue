@@ -10,7 +10,7 @@
                     <Badge v-if="item.badge" :class="{ 'ml-auto': !root, 'ml-2': root }" :value="item.badge" />
                     <span v-if="item.shortcut"
                         class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">{{
-                        item.shortcut }}</span>
+                            item.shortcut }}</span>
                     <i v-if="hasSubmenu"
                         :class="['pi pi-angle-down ml-auto', { 'pi-angle-down': root, 'pi-angle-right': !root }]"></i>
                 </a>
@@ -25,7 +25,11 @@
 
 
                     <InputText placeholder="Search" type="text" class="w-32 sm:w-auto" />
-                    <Avatar v-if="isAuthenticated" :image="user?.user_metadata?.avatar_url" shape="circle" />
+                     <Avatar @click="togglePopover" v-if="isAuthenticated" :image="user?.user_metadata?.avatar_url" shape="circle" />
+                    <Popover ref="op">
+                       <Button @click="logout()">Logout</Button>
+                    </Popover>
+
                     <Button v-if="!isAuthenticated" @click="login()">Login</Button>
                 </div>
             </template>
@@ -44,7 +48,10 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 import { ref } from "vue";
-
+const op = ref();
+const togglePopover = (event:any) => {
+    op.value.toggle(event);
+}
 const items = ref([
     {
         label: 'Home',
@@ -82,7 +89,7 @@ const items = ref([
 
 
 const authStore = useAuthStore();
-const { login } = authStore;
+const { login, logout } = authStore;
 const { user, isAuthenticated } = storeToRefs(authStore); // State
 
 const mode = useColorMode({
