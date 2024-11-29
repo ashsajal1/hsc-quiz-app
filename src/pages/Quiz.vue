@@ -18,13 +18,13 @@
 
     <!-- Display Quizzes -->
     <div v-else>
-      <div v-for="{ id, question, options } in quizzes" :key="id">
+      <div v-for="{ id, question, options } in quizzesTyped" :key="id">
 
         <p class="font-bold text-lg my-2">{{ question }}</p>
         <div class="flex flex-col gap-2">
           <Button @click="selectOption(option)" variant="outlined"
-            :severity="isOptionSelected(option) ? 'help' : 'secondary'" v-for="{ option } in options" :key="option">
-            {{ option }}
+            :severity="isOptionSelected(option) ? 'help' : 'secondary'" v-for="option in options" :key="option">
+            {{ option.option }}
           </Button>
 
           <Button @click="submit" rounded>Submit</Button>
@@ -41,6 +41,13 @@ import AutoComplete from 'primevue/autocomplete';
 import { useTopicStore } from '../stores/topics';
 import { onMounted, ref } from 'vue';
 import { Button } from 'primevue';
+
+// Access the quiz store
+const quizStore = useQuizStore();
+const { quizzes, loading, error } = storeToRefs(quizStore);
+const { fetchQuizzes } = quizStore;
+
+const quizzesTyped = quizzes.value as any;
 
 const userSelectedOption = ref<string | null>(null);
 
@@ -60,7 +67,14 @@ const isOptionSelected = (option: string) => {
 
 // Handle submission
 const submit = () => {
-  console.log('Selected Option:', userSelectedOption.value);
+  console.log(quizzesTyped[0].correct_answer);
+  if(!userSelectedOption.value) return;
+  if(userSelectedOption.value === quizzesTyped[0].correct_answer) {
+    console.log("correct");
+    return
+  }
+
+  console.log(`Incorrect. The correct ans is : ${quizzesTyped[0].correct_answer}`);
 };
 
 
@@ -83,10 +97,7 @@ onMounted(() => {
   fetchTopics();
 });
 
-// Access the quiz store
-const quizStore = useQuizStore();
-const { quizzes, loading, error } = storeToRefs(quizStore);
-const { fetchQuizzes } = quizStore;
+
 
 // Search function to filter topics based on user input
 const search = (event: { query: string }) => {
