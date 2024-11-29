@@ -60,11 +60,20 @@ export const useAuthStore = defineStore("auth", () => {
   // Logout user
   async function logout(): Promise<void> {
     try {
-      // await account.deleteSession('current');
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        throw new Error(error.message);
+      }
+
       user.value = null;
       isAuthenticated.value = false;
-    } catch (err: any) {
-      error.value = err.message;
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        error.value = err.message;
+      } else {
+        console.error("Unknown error:", err);
+        error.value = "An unknown error occurred";
+      }
     }
   }
 
