@@ -30,7 +30,7 @@
                        <Button @click="logout()">Logout</Button>
                     </Popover>
 
-                    <Button v-if="!isAuthenticated" @click="login()">Login</Button>
+                    <Button label="Login" v-if="!isAuthenticated" @click="login()" />
                 </div>
             </template>
         </Menubar>
